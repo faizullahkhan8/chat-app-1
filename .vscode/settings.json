@@ -1,0 +1,6 @@
+{
+    "editor.inlineSuggest.suppressSuggestions": true,
+    "tabnine.ignoreCertificateErrors": true,
+    "tabnine.receiveBetaChannelUpdates": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
