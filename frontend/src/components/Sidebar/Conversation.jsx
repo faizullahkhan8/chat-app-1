@@ -8,6 +8,7 @@ import { useSocketContext } from "../../contexts/Socket.context.jsx";
 const Conversation = ({ conversation }) => {
     const _id = useSelector((state) => state.selectedConversation._id);
     const dispatch = useDispatch();
+
     const handleClick = (e) => {
         dispatch(
             setSelectedConversation({
@@ -41,9 +42,6 @@ const Conversation = ({ conversation }) => {
                 <h1 className="font-bold text-slate-300">
                     {conversation.name}
                 </h1>
-            </div>
-            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-sky-500 font-bold text-white">
-                <p>10+</p>
             </div>
         </div>
     );

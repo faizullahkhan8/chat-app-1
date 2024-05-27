@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import useSendMessage from "../../hooks/useSendMessage.js";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import sendSound from "../../sounds/send-sound.m4a";
 
-const MessageInput = () => {
+const MessageInput = ({ setMessages }) => {
     const reciverId = useSelector((state) => state.selectedConversation._id);
     const [messsage, setMessage] = useState("");
     const inputEmpty = messsage.length < 1;
+    const sendSoundInstance = new Audio(sendSound);
 
     const { sendMessage, loading } = useSendMessage();
 
@@ -16,7 +17,8 @@ const MessageInput = () => {
         const response = await sendMessage(messsage, reciverId);
 
         if (response.status === 200) {
-            toast.success("message sent");
+            setMessages((pre) => [...pre, response.data.message]);
+            sendSoundInstance.play();
             setMessage("");
         }
     };

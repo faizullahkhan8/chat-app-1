@@ -25,10 +25,6 @@ const useLogin = () => {
                 }
             );
 
-            if (response.error) {
-                console.log(response.response);
-            }
-
             return response;
         } catch (error) {
             console.log("[ERROR IN USE-LOGIN]");

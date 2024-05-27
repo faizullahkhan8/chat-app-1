@@ -1,19 +1,20 @@
-import React, { useId } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 const Message = ({ message }) => {
     const userId = useSelector((state) => state.user._id);
     const createdAt = new Date(message.createdAt).toLocaleTimeString();
+
     return (
         <div className={`flex flex-col`}>
             <div
                 className={`chat ${
-                    userId === message.senderId ? "chat-end" : "chat-start"
+                    userId !== message.sender ? "chat-start" : "chat-end"
                 }`}
             >
                 <div
                     className={`${
-                        userId === message.senderId
+                        userId !== message.sender
                             ? "chat-bubble chat-bubble-primary"
                             : "chat-bubble"
                     }`}

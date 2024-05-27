@@ -37,13 +37,16 @@ export const sendMessage = async (req, res, next) => {
 
         // SOCKET IO FUNCTIONALITY GOES HERE
         const reciverSocketId = getReciverSocketId(reciverId);
-        console.log(reciverSocketId);
+        const senderSocketId = getReciverSocketId(senderId);
+        console.log(reciverSocketId, senderSocketId);
 
-        if (reciverSocketId) {
-            io.to(reciverSocketId).emit("newMessage", newMessage);
+        if (senderSocketId) {
+            if (reciverSocketId) {
+                io.to(reciverSocketId).emit("newMessage", newMessage);
+            }
         }
 
-        return res.status(200).json({ message: "Message sent succesfull" });
+        return res.status(200).json({ message: newMessage });
     } catch (error) {
         console.log("[ SEND_MESSAGE ]", error.message);
         return res.status(500).json({ error: "Internal server error" });

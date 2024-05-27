@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import io from "socket.io-client";
 
 // redux states
 import { setUser } from "../../store/user.slice.js";
-import { useDispatch, useSelector } from "react-redux";
-import { setSocket } from "../../store/socket.slice.js";
+import { useDispatch } from "react-redux";
 
 // icons import
 import useRegister from "../../hooks/useRegister.js";
@@ -26,9 +24,6 @@ const RegisterPage = () => {
         gender: "",
     });
 
-    // get global states from redex
-    const _id = useSelector((state) => state.user._id);
-
     // get user data from the inputs
     const handleRegisterData = (e) => {
         setData((pre) => ({ ...pre, [e.target.id]: e.target.value }));
@@ -40,15 +35,6 @@ const RegisterPage = () => {
 
         if (res?.status === 201) {
             dispatch(setUser(res.data));
-
-            // socket set up
-            const socket = io("http://localhost:8000", {
-                query: {
-                    userId: _id,
-                },
-            });
-            dispatch(setSocket({ socket }));
-
             toast.success("user registred succesfully");
             navigate("/");
         }

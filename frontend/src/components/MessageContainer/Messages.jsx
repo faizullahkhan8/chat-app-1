@@ -1,15 +1,11 @@
 import { useEffect, useRef } from "react";
 import Message from "./Message";
-import useGetMessages from "../../hooks/useGetMessages.js";
-import { useMessagesContext } from "../../contexts/messages.context.jsx";
 import { useMessageListener } from "../../hooks/useMessageListener.js";
 
-const Messages = () => {
+const Messages = ({ messages, loading, setMessages }) => {
     const lastIdxRef = useRef();
-    const { loading } = useGetMessages();
-    const { messages } = useMessagesContext();
 
-    useMessageListener();
+    useMessageListener({ setMessages });
 
     useEffect(() => {
         setTimeout(() => {
@@ -26,7 +22,7 @@ const Messages = () => {
             ) : (
                 messages.map((message) => {
                     return (
-                        <div key={message._id} ref={lastIdxRef}>
+                        <div key={message?._id} ref={lastIdxRef}>
                             <Message message={message} />
                         </div>
                     );

@@ -1,15 +1,26 @@
 import { useEffect } from "react";
 import { useSocketContext } from "../contexts/Socket.context";
-import { useMessagesContext } from "../contexts/messages.context";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import messageAudio from "../sounds/Recording.m4a";
 
-export const useMessageListener = () => {
+export const useMessageListener = ({ setMessages }) => {
+    const audio = new Audio(messageAudio);
     const { socket } = useSocketContext();
-    const { messages, setMessages } = useMessagesContext();
+    const currentUser = useSelector((state) => state.user._id);
     useEffect(() => {
-        socket?.on("newMessage", (message) => {
-            setMessages([...messages, message]);
-        });
+        function MessageListener() {
+            socket?.on("newMessage", (message) => {
+                setMessages((pre) => [...pre, message]);
+                if (message.sender !== currentUser) {
+                    toast.success("New Message");
+                    audio.play();
+                }
+            });
+        }
 
-        return () => socket?.off("newMessage");
-    }, [messages, socket, setMessages]);
+        if (socket) MessageListener();
+
+        return () => socket.off("newMessage");
+    }, [socket, setMessages]);
 };

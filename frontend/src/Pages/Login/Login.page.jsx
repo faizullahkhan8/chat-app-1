@@ -34,21 +34,6 @@ const LoginPage = () => {
 
         if (response?.status === 200) {
             dispatch(setUser(response.data));
-
-            // // socket set up
-            // const socket = io("http://localhost:8000", {
-            //     query: {
-            //         userId: response.data._id,
-            //     },
-            // });
-
-            // socket.on("getOnlineUsers", (onLineUser) => {
-            //     dispatch(setSocket({ onLineUser }));
-            // });
-
-            // dispatch(setSocket({ socket }));
-
-            // socketCon();
             toast.success("Loged in successfully");
             navigate("/");
         }
