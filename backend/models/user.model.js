@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, SchemaTypes, model } from "mongoose";
 
 const userSchema = new Schema({
     name: {
@@ -18,6 +18,9 @@ const userSchema = new Schema({
         required: true,
         type: String,
         enum: ["male", "female"],
+    },
+    lastOffline: {
+        type: SchemaTypes.Date,
     },
 });
 

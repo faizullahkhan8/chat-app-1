@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import * as timeago from "timeago.js";
 
 const Message = ({ message }) => {
     const userId = useSelector((state) => state.user._id);
-    const createdAt = new Date(message.createdAt).toLocaleTimeString();
+    const createdAt = timeago.format(message.createdAt);
 
     return (
         <div className={`flex flex-col`}>

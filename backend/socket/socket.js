@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
 import http from "http";
 
+import lastOfflineModel from "../models/lastOffline.model.js";
+
 import express from "express";
 
 const app = express();
@@ -20,8 +22,22 @@ export const getReciverSocketId = (reciverId) => {
     return userSocketMap[reciverId];
 };
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     const userId = socket.handshake.query.userId;
+
+    const userLastOffline = await lastOfflineModel.findOne({ userId });
+
+    if (userLastOffline) {
+        userLastOffline.status = "online";
+        userLastOffline.offlineAt = null;
+        await userLastOffline.save();
+    } else {
+        await lastOfflineModel.create({
+            userId,
+            status: "online",
+            offlineAt: null,
+        });
+    }
 
     if (userId !== "undefined") {
         userSocketMap[userId] = socket.id;
@@ -29,7 +45,12 @@ io.on("connection", (socket) => {
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
+        const lastOffline = await lastOfflineModel.findOneAndUpdate(
+            { userId },
+            { status: "offline", offlineAt: Date.now() }
+        );
+
         delete userSocketMap[userId];
         console.log("disconnected");
         io.emit("getOnlineUsers", Object.keys(userSocketMap));
