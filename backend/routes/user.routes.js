@@ -5,6 +5,6 @@ import { getOfflineTime, getUser } from "../controller/user.controller.js";
 const router = Router();
 
 router.get("/", protectedRoute, getUser);
-router.get("/getOfflineTime/:id", protectedRoute, getOfflineTime);
+router.get("/getOfflineTime/:id", getOfflineTime);
 
 export default router;

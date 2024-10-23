@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const useGetOfflineTime = () => {
     const [loading, setLoading] = useState(false);
-    const [offlineTime, setOfflineTime] = useState([]);
 
     const getOfflineTime = async ({ userId }) => {
         setLoading(true);

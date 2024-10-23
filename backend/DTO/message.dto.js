@@ -1,10 +1,10 @@
 class messageDto {
-    constructor(messages) {
-        this._id = messages._id;
-        this.sender = messages?.sender;
-        this.reciver = messages?.reciver;
-        this.message = messages?.message;
-        this.createdAt = messages?.createdAt;
+    constructor(message) {
+        this._id = message._id;
+        this.sender = message?.sender;
+        this.receiver = message?.receiver;
+        this.message = message?.message;
+        this.createdAt = message?.createdAt;
     }
 }
 

@@ -19,8 +19,8 @@ const userSchema = new Schema({
         type: String,
         enum: ["male", "female"],
     },
-    lastOffline: {
-        type: SchemaTypes.Date,
+    profilePicture: {
+        type: String,
     },
 });
 

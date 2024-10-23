@@ -7,9 +7,7 @@ const useRegister = () => {
 
     const register = async (data) => {
         const success = handleInputErrors(data);
-        let res;
         if (!success) return;
-
         setLoading(true);
         try {
             const response = await axios.post(
@@ -30,7 +28,7 @@ const useRegister = () => {
             return response;
         } catch (error) {
             console.log("[ERROR IN USE-REGISTER]");
-            toast.error(error.response.data);
+            toast.error(error.response?.data);
         } finally {
             setLoading(false);
         }

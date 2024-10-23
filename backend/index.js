@@ -12,7 +12,7 @@ import userRouter from "./routes/user.routes.js";
 import { app, server } from "./socket/socket.js";
 
 // FOR SEND AND RECIVE JSON
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 // FOR GET COOKEIS FORM THE REQUEST
 app.use(cookieParser());
@@ -30,6 +30,7 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/user", userRouter);
+app.use("/backend/storage", express.static("backend/storage"));
 
 // START UP THE SERVER ON PORT
 server.listen(PORT, () => {

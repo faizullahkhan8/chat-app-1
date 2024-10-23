@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSocketContext } from "../contexts/Socket.context";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import messageAudio from "../sounds/Recording.m4a";
+import messageAudio from "../sounds/receive-sound.m4a";
 
 export const useMessageListener = ({ setMessages }) => {
     const audio = new Audio(messageAudio);

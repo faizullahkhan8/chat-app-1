@@ -2,14 +2,24 @@ import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import getToken from "../services/genToken.js";
 import tokenModel from "../models/token.model.js";
+import fs from "fs";
+import { SERVER_PATH } from "../config/env.config.js";
 
 const Register = async (req, res, next) => {
     try {
         // DESTURCRE ALL THESE FORM REQUST BODY SENDED FROM CLIENT SIDE
-        const { name, username, gender, password, confirmPassword } = req.body;
+        const { name, username, gender, password, confirmPassword, picture } =
+            req.body;
 
         // IF ONE OF THEM ARE MISSING THEN RETURN RESPONSE
-        if (!name || !username || !gender || !password || !confirmPassword) {
+        if (
+            !name ||
+            !username ||
+            !gender ||
+            !password ||
+            !confirmPassword ||
+            !picture
+        ) {
             return res.status(400).json("In-complete data");
         }
 
@@ -36,12 +46,23 @@ const Register = async (req, res, next) => {
         // HASHING PASSWORD WITH THE GENERETED REANDOM SALTES
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        // READ PROFILE PICTURE AS BUFFER
+        const profileImage = new Buffer.from(
+            picture.replace(/^data:image\/(jpeg|jpg|png);base64,/, ""),
+            "base64"
+        );
+
+        const profileImagePath = `${Date.now()}-${username}.png`;
+
+        fs.writeFileSync(`backend/storage/${profileImagePath}`, profileImage);
+
         // CREATE THE OBJECT OF USER INFO
         const userToRegister = new userModel({
             name,
             username,
             gender,
             password: hashedPassword,
+            profilePicture: `${SERVER_PATH}/backend/storage/${profileImagePath}`,
         });
 
         // SAVE THE ABOVE OBJECT IN DB

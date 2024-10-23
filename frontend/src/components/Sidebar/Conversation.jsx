@@ -31,11 +31,15 @@ const Conversation = ({ conversation }) => {
             } hover:bg-sky-500 cursor-pointer gap-2`}
         >
             <div
-                className={`w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-2xl flex items-center justify-center avatar ${
+                className={`w-12 h-12 rounded-full avatar ${
                     isOnline ? " online" : ""
                 }`}
             >
-                {conversation.name[0]}
+                <img
+                    src={conversation.profilePicture}
+                    alt=""
+                    className="w-12 h-12 rounded-full"
+                />
             </div>
 
             <div className="flex flex-1 items-center justify-center">

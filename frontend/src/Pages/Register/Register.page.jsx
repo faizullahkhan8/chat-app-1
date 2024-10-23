@@ -6,7 +6,11 @@ import { setUser } from "../../store/user.slice.js";
 import { useDispatch } from "react-redux";
 
 // icons import
+import { BsCheckCircleFill, BsImageFill, BsXCircleFill } from "react-icons/bs";
+
+// components imports
 import useRegister from "../../hooks/useRegister.js";
+
 import { toast } from "react-toastify";
 
 const RegisterPage = () => {
@@ -22,11 +26,22 @@ const RegisterPage = () => {
         password: "",
         confirmPassword: "",
         gender: "",
+        picture: "",
     });
 
     // get user data from the inputs
     const handleRegisterData = (e) => {
         setData((pre) => ({ ...pre, [e.target.id]: e.target.value }));
+    };
+
+    const getPhoto = (e) => {
+        const photo = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.readAsDataURL(photo);
+
+        reader.onloadend = () =>
+            setData((pre) => ({ ...pre, picture: reader.result }));
     };
 
     const handleSubmitData = async (event) => {
@@ -84,6 +99,28 @@ const RegisterPage = () => {
                         value={data.confirmPassword}
                         onChange={handleRegisterData}
                     />
+                    <div className="flex items-center gap-4 text-white">
+                        <label
+                            className="flex gap-4 items-center text-xl hover:text-blue-500 cursor-pointer"
+                            htmlFor="photo"
+                        >
+                            <BsImageFill />
+                            <p>Select profile picture</p>
+                        </label>
+                        {data.picture ? (
+                            <BsCheckCircleFill className="text-green-500" />
+                        ) : (
+                            <BsXCircleFill className="text-red-500" />
+                        )}
+                        <input
+                            type="file"
+                            name="photo"
+                            accept="image/jpg,image/jpeg,image/png"
+                            onChange={getPhoto}
+                            hidden
+                            id="photo"
+                        />
+                    </div>
                     <div className="flex gap-4 text-white">
                         <div className="">
                             <label
